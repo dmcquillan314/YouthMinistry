@@ -1,0 +1,1 @@
+<p align="center">Copyright &copy; Dan McQuillan</p>
