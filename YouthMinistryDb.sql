@@ -124,6 +124,8 @@ CREATE TABLE IF NOT EXISTS `YouthMinistry`.`event` (
   `eventid` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `event_name` VARCHAR(255) NOT NULL ,
   `event_desc` VARCHAR(255) NULL ,
+  `start_time` DATETIME,
+  `end_time` DATETIME,
   PRIMARY KEY (`eventid`) ,
   INDEX `eventid_idx` (`eventid` ASC) ,
   FOREIGN KEY (`eventid` )
@@ -131,7 +133,6 @@ CREATE TABLE IF NOT EXISTS `YouthMinistry`.`event` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
