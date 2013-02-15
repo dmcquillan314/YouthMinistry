@@ -1,0 +1,142 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+DROP SCHEMA IF EXISTS `YouthMinistry` ;
+CREATE SCHEMA IF NOT EXISTS `YouthMinistry` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+USE `YouthMinistry` ;
+
+-- -----------------------------------------------------
+-- Table `YouthMinistry`.`group`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `YouthMinistry`.`group` ;
+
+CREATE  TABLE IF NOT EXISTS `YouthMinistry`.`group` (
+  `groupid` INT NOT NULL AUTO_INCREMENT ,
+  `group_name` VARCHAR(100) NOT NULL ,
+  `group_desc` VARCHAR(255) NULL ,
+  PRIMARY KEY (`groupid`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `YouthMinistry`.`groupmembers`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `YouthMinistry`.`groupmembers` ;
+
+CREATE  TABLE IF NOT EXISTS `YouthMinistry`.`groupmembers` (
+  `groupid` INT NOT NULL ,
+  `memberid` INT NOT NULL ,
+  PRIMARY KEY (`groupid`, `memberid`) ,
+  INDEX `groupid_idx` (`groupid` ASC) ,
+  CONSTRAINT `groupid`
+    FOREIGN KEY (`groupid` )
+    REFERENCES `YouthMinistry`.`group` (`groupid` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `YouthMinistry`.`role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `YouthMinistry`.`role` ;
+
+CREATE  TABLE IF NOT EXISTS `YouthMinistry`.`role` (
+  `roleid` INT NOT NULL AUTO_INCREMENT ,
+  `role_name` VARCHAR(100) NOT NULL ,
+  `role_desc` VARCHAR(255) NULL ,
+  PRIMARY KEY (`roleid`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `YouthMinistry`.`rolemembers`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `YouthMinistry`.`rolemembers` ;
+
+CREATE  TABLE IF NOT EXISTS `YouthMinistry`.`rolemembers` (
+  `roleid` INT NOT NULL ,
+  `memberid` INT NOT NULL ,
+  PRIMARY KEY (`roleid`, `memberid`) ,
+  INDEX `groupid_idx` (`roleid` ASC) ,
+  CONSTRAINT `roleid`
+    FOREIGN KEY (`roleid` )
+    REFERENCES `YouthMinistry`.`role` (`roleid` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `YouthMinistry`.`users`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `YouthMinistry`.`users` ;
+
+CREATE  TABLE IF NOT EXISTS `YouthMinistry`.`users` (
+  `memberid` INT NOT NULL AUTO_INCREMENT ,
+  `username` VARCHAR(45) NOT NULL ,
+  `password` VARCHAR(45) NOT NULL ,
+  `email` VARCHAR(100) NULL ,
+  `first_name` VARCHAR(45) NOT NULL ,
+  `last_name` VARCHAR(45) NOT NULL ,
+  `created` DATETIME NOT NULL DEFAULT 0000-00-00 00:00 ,
+  `updated` DATETIME NOT NULL ,
+  PRIMARY KEY (`memberid`, `username`, `password`) ,
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC) ,
+  INDEX `memberid_idx` (`memberid` ASC) ,
+  INDEX `memberid_idx1` (`memberid` ASC) ,
+  CONSTRAINT `memberid`
+    FOREIGN KEY (`memberid` )
+    REFERENCES `YouthMinistry`.`groupmembers` (`groupid` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `memberid`
+    FOREIGN KEY (`memberid` )
+    REFERENCES `YouthMinistry`.`rolemembers` (`roleid` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `YouthMinistry`.`eventgroup`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `YouthMinistry`.`eventgroup` ;
+
+CREATE  TABLE IF NOT EXISTS `YouthMinistry`.`eventgroup` (
+  `eventid` INT NOT NULL ,
+  `groupid` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`eventid`, `groupid`) ,
+  INDEX `groupid_idx` () ,
+  CONSTRAINT `groupid`
+    FOREIGN KEY ()
+    REFERENCES `YouthMinistry`.`group` ()
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `YouthMinistry`.`event`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `YouthMinistry`.`event` ;
+
+CREATE  TABLE IF NOT EXISTS `YouthMinistry`.`event` (
+  `eventid` INT NOT NULL AUTO_INCREMENT ,
+  `event_name` VARCHAR(255) NOT NULL ,
+  `event_desc` VARCHAR(255) NULL ,
+  PRIMARY KEY (`eventid`) ,
+  INDEX `eventid_idx` (`eventid` ASC) ,
+  CONSTRAINT `eventid`
+    FOREIGN KEY (`eventid` )
+    REFERENCES `YouthMinistry`.`eventgroup` (`eventid` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
