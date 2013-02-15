@@ -42,6 +42,11 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-rest-webmvc</artifactId>
+			<version>1.0.0.RC3</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
@@ -80,16 +85,6 @@
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-facebook-web</artifactId>
 			<version>${org.springframework.social.facebook-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.social</groupId>
-			<artifactId>spring-social-twitter</artifactId>
-			<version>${org.springframework.social.twitter-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.social</groupId>
-			<artifactId>spring-social-linkedin</artifactId>
-			<version>${org.springframework.social.linkedin-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.social</groupId>
